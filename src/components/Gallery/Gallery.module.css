@@ -1,0 +1,37 @@
+.gridContainer {
+  display: grid;
+  width: 60vw;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  grid-auto-flow: dense;
+  padding: 2rem 0;
+}
+
+.gridItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgb(177, 172, 172);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.gridItem img {
+  width: 100%;
+}
+
+@media (min-width: 700px) {
+  .wide {
+    grid-column: span 2;
+  }
+
+  .tall {
+    grid-row: span 2;
+  }
+}
+
+@media (max-width: 500px) {
+  .gridContainer {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+}
