@@ -8,16 +8,81 @@
 }
 
 .gridItem {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgb(177, 172, 172);
-  border-radius: 20px;
+  border: 2px solid var(--PrimaryColor);
+  border-radius: 10px;
   overflow: hidden;
+  background-color: white;
 }
 
 .gridItem img {
   width: 100%;
+}
+
+.gridItem input[type="checkbox"] {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid var(--PrimaryColor);
+  background-color: white;
+}
+
+.gridItem input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+.gridItem input[type="checkbox"]:checked {
+  background-color: var(--ThirdColor);
+  border-color: var(--ThirdColor);
+}
+
+.gridItem input[type="checkbox"]:checked::before {
+  content: "\2714";
+  display: block;
+  text-align: center;
+  line-height: 25px;
+  color: white;
+  font-size: 2rem;
+}
+
+.bar {
+  background-color: var(--PrimaryColor);
+  font-weight: bold;
+  margin: 20px 0 0 0;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.delete {
+  display: flex;
+  align-content: center;
+  color: #ce2029;
+  font-size: 1.4em;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: #dbd7d2;
+  box-shadow: 7px 7px 7px #d2ceca, -7px -7px 7px #e4e0da;
+}
+
+.delete:hover {
+  cursor: pointer;
+  border-radius: 10px;
+  background: #dbd7d2;
+  box-shadow: inset 7px 7px 14px #d0ccc8, inset -7px -7px 14px #e6e2dd;
 }
 
 @media (min-width: 700px) {
@@ -33,5 +98,8 @@
 @media (max-width: 500px) {
   .gridContainer {
     grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+  .delete {
+    font-size: 0;
   }
 }
