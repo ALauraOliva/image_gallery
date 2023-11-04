@@ -60,6 +60,14 @@ export default function Gallery() {
             <img src={imgUrl} alt="" />
           </div>
         ))}
+        <div className={style.addImgContainer}>
+          <img
+            className={style.addImg}
+            src="/static/svg/addImages.svg"
+            alt=""
+          />
+          Add Images
+        </div>
       </div>
     </main>
   );
