@@ -1,24 +1,35 @@
 import { useState } from "react";
 import style from "./Gallery.module.css";
 import images from "./../../utils/images";
+import SortableList, { SortableItem } from "react-easy-sort";
+import arrayMove from "array-move";
 
 export default function Gallery() {
   const initialImages = images(); // Array of images
-  const [imagesGallery, setImagesGallery] = useState(initialImages);
   const [selectedImageIndexes, setSelectedImageIndexes] = useState([]);
+  const [imagesGallery, setImagesGallery] = useState(
+    initialImages.map((imgUrl, index) => ({
+      url: imgUrl,
+      selected: false,
+      id: index,
+    }))
+  );
 
   const selectImages = (event) => {
     const { value, checked } = event.target;
     const index = parseInt(value, 10);
 
-    if (checked) {
-      setSelectedImageIndexes([...selectedImageIndexes, index]);
-    } else {
-      const updatedIndexes = selectedImageIndexes.filter(
-        (selectedIndex) => selectedIndex !== index
-      );
-      setSelectedImageIndexes(updatedIndexes);
-    }
+    const updatedImages = imagesGallery.map((image, idx) => {
+      if (idx === index) {
+        return { ...image, selected: checked };
+      }
+      return image;
+    });
+
+    setSelectedImageIndexes(
+      updatedImages.filter((image) => image.selected).map((image) => image.id)
+    );
+    setImagesGallery(updatedImages);
   };
 
   const deleteFiles = () => {
@@ -26,11 +37,31 @@ export default function Gallery() {
       const remainingImages = imagesGallery.filter(
         (_, index) => !selectedImageIndexes.includes(index)
       );
-      setImagesGallery(remainingImages);
-      setSelectedImageIndexes([]); // Clear selected image indexes after deletion
+      setImagesGallery(
+        remainingImages.map((img, index) => ({ ...img, id: index }))
+      );
+      setSelectedImageIndexes([]);
     } else {
       console.log("You must select images to delete them");
     }
+  };
+
+  const onSortEnd = (oldIndex, newIndex) => {
+    const updatedImages = arrayMove(imagesGallery, oldIndex, newIndex);
+
+    const updatedImagesWithNewIndexes = updatedImages.map((image, index) => ({
+      ...image,
+      id: index,
+      selected: image.selected,
+    }));
+
+    setImagesGallery(updatedImagesWithNewIndexes);
+
+    const updatedIndexes = updatedImagesWithNewIndexes
+      .filter((image) => image.selected)
+      .map((image) => image.id);
+
+    setSelectedImageIndexes(updatedIndexes);
   };
 
   return (
@@ -40,25 +71,30 @@ export default function Gallery() {
         <button className={style.delete} onClick={deleteFiles}>
           <img src="/static/svg/trash.svg" alt="" />
           <span>{selectedImageIndexes.length}</span>
-          Delete Files
+          Del. Selected
         </button>
       </div>
-      <div className={style.gridContainer}>
-        {imagesGallery.map((imgUrl, index) => (
-          <div
-            key={index}
-            className={`${style.gridItem} ${
-              index === 0 && `${style.wide} ${style.tall}`
-            }`}
-          >
-            <input
-              type="checkbox"
-              value={index}
-              onChange={selectImages}
-              checked={selectedImageIndexes.includes(index)}
-            />
-            <img src={imgUrl} alt="" />
-          </div>
+      <SortableList
+        onSortEnd={onSortEnd}
+        className={style.gridContainer}
+        draggedItemClassName="dragged"
+      >
+        {imagesGallery.map((image, index) => (
+          <SortableItem key={image.id}>
+            <div
+              className={`${style.gridItem} ${
+                index === 0 && `${style.wide} ${style.tall}`
+              }`}
+            >
+              <input
+                type="checkbox"
+                value={image.id}
+                onChange={selectImages}
+                checked={image.selected}
+              />
+              <img src={image.url} alt="" />
+            </div>
+          </SortableItem>
         ))}
         <div className={style.addImgContainer}>
           <img
@@ -68,7 +104,7 @@ export default function Gallery() {
           />
           Add Images
         </div>
-      </div>
+      </SortableList>
     </main>
   );
 }
