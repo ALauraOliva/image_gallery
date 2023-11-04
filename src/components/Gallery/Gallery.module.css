@@ -16,10 +16,15 @@
   border-radius: 10px;
   overflow: hidden;
   background-color: white;
+  transition: transform 0.5s ease-in-out;
 }
 
 .gridItem img {
   width: 100%;
+}
+
+.gridItem:hover {
+  transform: scale(1.05);
 }
 
 .gridItem input[type="checkbox"] {
@@ -32,10 +37,21 @@
   border-radius: 50%;
   border: 2px solid var(--PrimaryColor);
   background-color: white;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.gridItem:hover input[type="checkbox"] {
+  opacity: 1;
 }
 
 .gridItem input[type="checkbox"]:hover {
   cursor: pointer;
+}
+
+.gridItem:hover input[type="checkbox"],
+.gridItem input[type="checkbox"]:checked {
+  opacity: 1;
 }
 
 .gridItem input[type="checkbox"]:checked {
@@ -100,7 +116,7 @@
   justify-content: center;
   align-items: center;
   color: #dbd7d2;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 @media (min-width: 700px) {
