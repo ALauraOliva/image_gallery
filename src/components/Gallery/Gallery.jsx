@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import style from "./Gallery.module.css";
 import images from "./../../utils/images";
 import SortableList, { SortableItem } from "react-easy-sort";
@@ -6,6 +6,7 @@ import arrayMove from "array-move";
 
 export default function Gallery() {
   const initialImages = images(); // Array of images
+  const fileInputRef = useRef(null);
   const [selectedImageIndexes, setSelectedImageIndexes] = useState([]);
   const [imagesGallery, setImagesGallery] = useState(
     initialImages.map((imgUrl, index) => ({
@@ -64,6 +65,27 @@ export default function Gallery() {
     setSelectedImageIndexes(updatedIndexes);
   };
 
+  const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const newImages = Array.from(files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    const updatedImages = [
+      ...imagesGallery,
+      ...newImages.map((url, index) => ({
+        url: url,
+        selected: false,
+        id: imagesGallery.length + index,
+      })),
+    ];
+
+    setImagesGallery(updatedImages);
+  };
+
+  const openFileUploader = () => {
+    fileInputRef.current.click(); // Simulate click on the 'file' input
+  };
+
   return (
     <main>
       <div className={style.bar}>
@@ -96,7 +118,15 @@ export default function Gallery() {
             </div>
           </SortableItem>
         ))}
-        <div className={style.addImgContainer}>
+        <div className={style.addImgContainer} onClick={openFileUploader}>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            multiple
+          />
           <img
             className={style.addImg}
             src="/static/svg/addImages.svg"
