@@ -39,7 +39,8 @@ export default function Gallery() {
         <h1 className={style.title}>Gallery</h1>
         <button className={style.delete} onClick={deleteFiles}>
           <img src="/static/svg/trash.svg" alt="" />
-          Delete Files
+          <span>{selectedImageIndexes.length}</span>
+          Delete Files ?
         </button>
       </div>
       <div className={style.gridContainer}>

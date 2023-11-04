@@ -66,6 +66,7 @@
 }
 
 .delete {
+  position: relative;
   display: flex;
   align-content: center;
   color: #ce2029;
@@ -83,6 +84,23 @@
   border-radius: 10px;
   background: #dbd7d2;
   box-shadow: inset 7px 7px 14px #d0ccc8, inset -7px -7px 14px #e6e2dd;
+}
+
+.delete span {
+  position: absolute;
+  background-color: #ce2029;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  padding: 0.3rem;
+  bottom: 0.3rem;
+  left: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #dbd7d2;
+  font-weight: 300;
 }
 
 @media (min-width: 700px) {
