@@ -7,6 +7,11 @@
   --fontGlobal: "Bricolage Grotesque", sans-serif;
 }
 
+#root {
+  min-height: 100vh;
+  display: grid;
+}
+
 * {
   font-family: var(--fontGlobal);
   margin: 0;
@@ -15,7 +20,6 @@
 
 html {
   font-size: 62.5%; /*10px*/
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;

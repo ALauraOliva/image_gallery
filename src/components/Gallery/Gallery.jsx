@@ -5,6 +5,12 @@ import SortableList, { SortableItem } from "react-easy-sort";
 import arrayMove from "array-move";
 import { Toaster, toast } from "sonner";
 
+//TODO Declaration of URLs as constants
+const successSoundURL =
+  "https://drive.google.com/uc?id=1JymfvJRIwYFly7YosYR5jYXuudoYkHQ9";
+const errorSoundURL =
+  "https://drive.google.com/uc?id=1ocUIYOcq4BuGz1o7jlMUKgv5FmmD8b7w";
+
 export default function Gallery() {
   const initialImages = images(); // Array of images
   const fileInputRef = useRef(null);
@@ -17,6 +23,7 @@ export default function Gallery() {
     }))
   );
 
+  //? Logic for selecting or deselecting images
   const selectImages = (event) => {
     const { value, checked } = event.target;
     const index = parseInt(value, 10);
@@ -34,16 +41,14 @@ export default function Gallery() {
     setImagesGallery(updatedImages);
   };
 
+  //? Plays a success or error notification sound
   const playNotificationSound = (success) => {
-    const successSoundURL =
-      "https://drive.google.com/uc?id=1JymfvJRIwYFly7YosYR5jYXuudoYkHQ9";
-    const errorSoundURL =
-      "https://drive.google.com/uc?id=1ocUIYOcq4BuGz1o7jlMUKgv5FmmD8b7w";
     const audio = new Audio(success ? successSoundURL : errorSoundURL);
     audio.play();
   };
 
-  const deleteFiles = () => {
+  //? Plays a success or error notification sound
+  const handleDeleteImages = () => {
     if (selectedImageIndexes.length > 0) {
       const remainingImages = imagesGallery.filter(
         (_, index) => !selectedImageIndexes.includes(index)
@@ -54,17 +59,18 @@ export default function Gallery() {
       const filesDeleted = selectedImageIndexes.length;
       const message =
         filesDeleted > 1
-          ? "Images have been successfully deleted!"
-          : "Image has been successfully deleted!";
+          ? `${filesDeleted} images have been successfully deleted!`
+          : `${filesDeleted} image has been successfully deleted!`;
       playNotificationSound(true);
       toast.success(message);
       setSelectedImageIndexes([]);
     } else {
       playNotificationSound(false);
-      toast.error("Select at least one file to delete");
+      toast.error("Select at least one image to delete");
     }
   };
 
+  //? Handles the sorting of images in the gallery
   const onSortEnd = (oldIndex, newIndex) => {
     const updatedImages = arrayMove(imagesGallery, oldIndex, newIndex);
 
@@ -83,6 +89,7 @@ export default function Gallery() {
     setSelectedImageIndexes(updatedIndexes);
   };
 
+  //? Handles the upload of new images to the gallery
   const handleImageUpload = (event) => {
     const files = event.target.files;
     const newImages = Array.from(files).map((file) =>
@@ -100,15 +107,16 @@ export default function Gallery() {
     setImagesGallery(updatedImages);
   };
 
+  //? Opens the file uploader for image selection
   const openFileUploader = () => {
-    fileInputRef.current.click(); // Simulate click on the 'file' input
+    fileInputRef.current.click();
   };
 
   return (
     <main>
       <div className={style.bar}>
         <h1 className={style.title}>Gallery</h1>
-        <button className={style.delete} onClick={deleteFiles}>
+        <button className={style.delete} onClick={handleDeleteImages}>
           <img src="/static/svg/trash.svg" alt="" />
           <span>{selectedImageIndexes.length}</span>
           Del. Selected
