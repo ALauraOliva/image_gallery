@@ -140,7 +140,7 @@ export default function Gallery() {
                 onChange={selectImages}
                 checked={image.selected}
               />
-              <img src={image.url} alt="" />
+              <img src={image.url} alt="" loading="lazy" />
             </div>
           </SortableItem>
         ))}
