@@ -3,6 +3,7 @@ import style from "./Gallery.module.css";
 import images from "./../../utils/images";
 import SortableList, { SortableItem } from "react-easy-sort";
 import arrayMove from "array-move";
+import { Toaster, toast } from "sonner";
 
 export default function Gallery() {
   const initialImages = images(); // Array of images
@@ -33,6 +34,15 @@ export default function Gallery() {
     setImagesGallery(updatedImages);
   };
 
+  const playNotificationSound = (success) => {
+    const successSoundURL =
+      "https://drive.google.com/uc?id=1JymfvJRIwYFly7YosYR5jYXuudoYkHQ9";
+    const errorSoundURL =
+      "https://drive.google.com/uc?id=1ocUIYOcq4BuGz1o7jlMUKgv5FmmD8b7w";
+    const audio = new Audio(success ? successSoundURL : errorSoundURL);
+    audio.play();
+  };
+
   const deleteFiles = () => {
     if (selectedImageIndexes.length > 0) {
       const remainingImages = imagesGallery.filter(
@@ -41,9 +51,17 @@ export default function Gallery() {
       setImagesGallery(
         remainingImages.map((img, index) => ({ ...img, id: index }))
       );
+      const filesDeleted = selectedImageIndexes.length;
+      const message =
+        filesDeleted > 1
+          ? "Images have been successfully deleted!"
+          : "Image has been successfully deleted!";
+      playNotificationSound(true);
+      toast.success(message);
       setSelectedImageIndexes([]);
     } else {
-      console.log("You must select images to delete them");
+      playNotificationSound(false);
+      toast.error("Select at least one file to delete");
     }
   };
 
@@ -135,6 +153,7 @@ export default function Gallery() {
           Add Images
         </div>
       </SortableList>
+      <Toaster richColors />
     </main>
   );
 }
