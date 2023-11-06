@@ -18,7 +18,6 @@
   overflow: hidden;
   background-color: white;
   user-select: none;
-  /* transition: transform 0.5s ease-in-out; */
 }
 .gridItem {
   cursor: grab;
