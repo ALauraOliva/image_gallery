@@ -47,7 +47,7 @@ export default function Gallery() {
     audio.play();
   };
 
-  //? Plays a success or error notification sound
+  //? Handles the delete of images in the gallery
   const handleDeleteImages = () => {
     if (selectedImageIndexes.length > 0) {
       const remainingImages = imagesGallery.filter(
