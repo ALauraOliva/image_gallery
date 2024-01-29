@@ -4,10 +4,11 @@ import images from "./../../utils/images";
 import SortableList, { SortableItem } from "react-easy-sort";
 import arrayMove from "array-move";
 import { Toaster, toast } from "sonner";
+import GalleryImg from "../GalleryImg/GalleryImg";
 
 //TODO Declaration of URLs as constants
-const successSoundURL =
-  "https://drive.google.com/uc?id=1JymfvJRIwYFly7YosYR5jYXuudoYkHQ9";
+// const successSoundURL =
+//   "https://drive.google.com/uc?id=1JymfvJRIwYFly7YosYR5jYXuudoYkHQ9";
 const errorSoundURL =
   "https://drive.google.com/uc?id=1ocUIYOcq4BuGz1o7jlMUKgv5FmmD8b7w";
 
@@ -140,7 +141,7 @@ export default function Gallery() {
                 onChange={selectImages}
                 checked={image.selected}
               />
-              <img src={image.url} alt="" loading="lazy" />
+              <GalleryImg src={image.url} />
             </div>
           </SortableItem>
         ))}
