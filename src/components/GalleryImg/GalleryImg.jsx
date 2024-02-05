@@ -21,7 +21,7 @@ export default function GalleryImg({ src }) {
     <>
       {!imageLoaded && (
         <Blurhash
-          hash="LQQ,ROfl~ot6-:ayIoaz_1oLRjWC" // Aquí deberías pasar el hash generado dinámicamente
+          hash="LQQ,ROfl~ot6-:ayIoaz_1oLRjWC" // should be dynamic hash
           width="100%"
           height="200px"
           resolutionX={20}
